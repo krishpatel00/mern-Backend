@@ -81,49 +81,6 @@ const registerUser = asynHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
-// const loginUser = asynHandler(async (req, res) => {
-//   const { email, username, password } = req.body;
-
-//   if (!(email || username)) {
-//     throw new ApiError(400, "Username or Email field is required");
-//   }
-//   const user = await User.findOne({ $or: [{ username }, { email }] });
-//   if (!user) {
-//     throw new ApiError(404, "User are not registered");
-//   }
-//   const isPasswordValid = await user.isPasswordCorrect(password);
-//   if (!isPasswordValid) {
-//     throw new ApiResponse(401, "Invalid credentials");
-//   }
-//   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
-//     user._id
-//   );
-
-//   const lockedInUser = await User.findById(user._id).select(
-//     "-password -refreshToken"
-//   );
-
-//   const options = {
-//     httpOnly: true,
-//     secure: true,
-//   };
-//   return res
-//     .status(200)
-//     .cookie("accesstoken", accessToken, options)
-//     .cookie("refreshtoken", refreshToken, options)
-//     .json(
-//       new ApiResponse(
-//         200,
-//         {
-//           user: lockedInUser,
-//           accessToken,
-//           refreshToken,
-//         },
-//         "user logged in successfully"
-//       )
-//     );
-// });
-
 const loginUser = asynHandler(async (req, res) => {
   const { email, username, password } = req.body;
 
