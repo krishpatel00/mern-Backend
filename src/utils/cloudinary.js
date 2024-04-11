@@ -23,4 +23,22 @@ const uploadOnCloudinary = async (localFilePath) => {
   }
 };
 
-export { uploadOnCloudinary };
+const deleteOldFileInCloudinary = async (oldData) => {
+  try {
+    const publicIdToDelete = oldData.split("/").pop().split(".")[0];
+    console.log("publicIdToDelete ", publicIdToDelete);
+    await cloudinary.uploader.destroy(
+      publicIdToDelete,
+      { resource_type: "image" },
+      (error, result) => {
+        if (error) {
+          throw new ApiError(401, "Error in Uploading to cloud");
+        }
+      }
+    );
+  } catch (error) {
+    return null;
+  }
+};
+
+export { uploadOnCloudinary , deleteOldFileInCloudinary};
