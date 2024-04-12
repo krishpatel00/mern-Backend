@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
   changeCurrentPassword,
   getCurrentUser,
+  getUserChannelProfile,
+  getWatchHistory,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -36,6 +38,8 @@ router.route("/getUserData").get(verifyJWT,getCurrentUser)
 router.route("/updateAvatar").patch(verifyJWT,upload.single('avatar'),updatedUserAvatar)
 router.route("/updateCoverImage").patch(verifyJWT,upload.single('coverImage'),updatedUserCoverImage)
 router.route("/updatedata").patch(verifyJWT,updatedUserAccount)
+router.route('/c/:username').get(verifyJWT,getUserChannelProfile);
+router.route('/history').get(verifyJWT,getWatchHistory);
 
 
 export default router;

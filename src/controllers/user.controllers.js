@@ -138,8 +138,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1,  // this remove the field from document
       },
     },
     {
@@ -380,12 +380,9 @@ const getUserChannelProfile = asyncHandler(async(req, res)=>{
 const getWatchHistory = asyncHandler(async(req,res)=>{
   const user = await User.aggregate([
     {
-      // $match: {
-      //   _id: new mongoose.Types.ObjectId(req.user._id)
-      // }
-      $match: {
-        _id: new mongoose.Schema.Types.ObjectId(req.user._id)
-      }
+        $match: {
+            _id: new mongoose.Types.ObjectId(req.user._id)
+        }
     },
     {
       $lookup:{
@@ -425,7 +422,7 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
   ])
 
   return res.status(200)
-  .json(new ApiError(200,user[0].watchHistory,"watch history fetch successfuly"))
+  .json(new ApiResponse(200,user[0].watchHistory,"watch history fetch successfuly"))
 })
 
 export {
